@@ -69,16 +69,39 @@ server{
 }
 ```
 
-Vous devez egalement inserer les commandes suivantes ***manuellement*** dans votre table "commande" : 
+Vous devez egalement inserer les commandes suivantes ***manuellement*** dans votre table "commande"
 
-docker ps / docker run / docker container prune 
+docker ps - docker run - docker container prune 
 
 
 le résultat final est : 
 
 * ***Question 2*** : 
 
-A partir d'une image Nginx, nous allons maintenant passer par un service proxy qui sera en charge de faire reverse proxy vers notre application. Celui-ci se trouvera dans un réseau appelé front , on exposera le port 80 du conteneur proxy sur le port 80 de la machine hote docker, le port du conteneur web ne sera donc plus exposé, le fichier docker compose sera nommé "docker-compose_q2" . 
+A partir d'une image Nginx, nous allons maintenant passer par un service proxy qui sera en charge de faire reverse proxy vers notre application. 
+
+Celui-ci se trouvera dans un réseau appelé front , on exposera le port 80 du conteneur proxy sur le port 80 de la machine hote docker. 
+
+L'idée est de rediriger toutes les requêtes provenant du nom de domaine monsite1.fr vers notre conteneur appelé web. 
+
+Là encore nous allons devoir monter un fichier de configuration pour nginx afin de lui indiquer vers quel conteneur il faut rediriger les requêtes provenant d'un nom de domaine. 
+ 
+Le fichier docker compose sera nommé "docker-compose_q2" . 
+
+```
+exercice1/nginx/proxy.conf
+server {
+	listen 80;
+	server_name monsite1.fr;
+	location / {
+        proxy_pass http://web:80;
+    }
+}
+```
+
+Le conteneur proxy doit se trouver dans les deux networks pour être en mesure de rediriger le trafic vers les conteneurs de notre application. 
+
+Notre conteneur Nginx applicatif n'a plus besoin d'exposer son port sur l'hôte Docker, c'est le reverse proxy qui va s'en charger. 
 
 * ***Question 3*** : 
 
