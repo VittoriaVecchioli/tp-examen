@@ -101,24 +101,22 @@ server {
 }
 ```
 
-Le fichier docker compose sera nommé "docker-compose_q2" . 
+Votre fichier docker-compose sera nommé "docker-compose_q2" . 
 
 * ***Question 3*** : 
 
 Nous allons maintenant ajouter une seconde application. Celle-ci sera elle aussi composée d'un conteneur Nginx, d'un conteneur PHP-FPM et d'une base de données PostgreSQL indépendante. 
 
-Créez les fichiers de configuration correspondante et mettez à jour le docker-compose.yml pour prendre en compte ce nouveau site. 
-
 Les conteneurs de cette nouvelle application vont se trouver dans un network séparé de la première application qui sera appelé backend2. 
 
-Notre fichier index.php a été mis à jour pour notre nouvelle application. On notera que l'URL de la base de données a été mise à jour pour utiliser une autre base de données que celle de notre première application. 
+Notre fichier index.php a été mis à jour pour notre nouvelle application.
 
 ```
 exercice1/html2/index.php
 <?php
-    echo "<h1>Dix commandes très utiles sur Ubuntu v2</h1></br>";
+    echo "<h1>Trois commandes très utiles sur docker v2</h1></br>";
     echo "<ol>";
-    $connexion = new PDO('pgsql:host=postgresql2;port=5432;dbname=prism', 'snowden', 'nsa');
+    $connexion = new PDO('pgsql:host=postgresql;port=5432;dbname=database', 'postgresql', 'dauphine');
     $sql = 'SELECT * FROM commande';
     $results = $connexion->prepare($sql);
     $results->execute();
