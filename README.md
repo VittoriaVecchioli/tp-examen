@@ -9,7 +9,7 @@ Un reverse proxy sera également présent pour rediriger les conteneurs vers cha
 
 Pour cela, nous allons utiliser un fichier docker-compose permettant de regrouper les différents sites. 
 
-* Question 1 : 
+* ***Question 1*** : 
 
 Créez un premier fichier docker-compose composé d'un conteneur Nginx, d'une base de données PostgresSQL et d'un conteneur PHP-FPM. 
 
