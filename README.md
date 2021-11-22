@@ -84,9 +84,11 @@ Celui-ci se trouvera dans un réseau appelé front , on exposera le port 80 du c
 
 L'idée est de rediriger toutes les requêtes provenant du nom de domaine monsite1.fr vers notre conteneur appelé web. 
 
+Le conteneur proxy doit se trouver dans les deux networks pour être en mesure de rediriger le trafic vers les conteneurs de notre application. 
+
+Notre conteneur Nginx applicatif du service web n'a plus besoin d'exposer son port sur l'hôte Docker, c'est le reverse proxy qui va s'en charger. 
+
 Là encore nous allons devoir monter un fichier de configuration pour nginx afin de lui indiquer vers quel conteneur il faut rediriger les requêtes provenant d'un nom de domaine. 
- 
-Le fichier docker compose sera nommé "docker-compose_q2" . 
 
 ```
 exercice1/nginx/proxy.conf
@@ -99,9 +101,7 @@ server {
 }
 ```
 
-Le conteneur proxy doit se trouver dans les deux networks pour être en mesure de rediriger le trafic vers les conteneurs de notre application. 
-
-Notre conteneur Nginx applicatif n'a plus besoin d'exposer son port sur l'hôte Docker, c'est le reverse proxy qui va s'en charger. 
+Le fichier docker compose sera nommé "docker-compose_q2" . 
 
 * ***Question 3*** : 
 
