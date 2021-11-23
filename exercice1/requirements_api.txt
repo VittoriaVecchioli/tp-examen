@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+elasticsearch<7.14.0
+black
+python-dotenv
+requests
