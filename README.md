@@ -11,7 +11,7 @@ Pour cela, nous allons utiliser un fichier docker-compose permettant de regroupe
 
 * ***Question 1.A*** : 
 
-Créez un premier fichier docker-compose_q1 composé d'un service nommé ***web***, Un service de base de données ***postgresql*** et un service ***php***. 
+Créez un premier fichier docker-compose_q1a composé d'un service nommé ***web***, Un service de base de données ***postgresql*** et un service ***php***. 
 
 Les conteneurs porteront le même nom que les services définis précédemment . 
 
@@ -75,20 +75,6 @@ Vous devez egalement inserer les commandes suivantes ***manuellement*** dans vot
 
 docker ps - docker run - docker container prune 
 
-l'arboresence pour la 1ere question: 
-
-```
-excerice1
-├── bdd
-│   └── data1
-│
-├── docker-compose_q1.yml
-├── html
-│   └── index.php
-└── nginx
-    └── site1.conf
-```
-
 vous devez associer le dossier /html de votre machine hote avec le dossier /usr/share/nginx/html du conteneur web, mettre le fichier site1.conf dans le repertoire /etc/nginx/conf.d/ en le renommant à default.conf du conteneur web, associer le dossier /html de votre machine hote avec le dossier /usr/share/nginx/html du conteneur php, et associer le dossier /data1 de votre machine au repertoire /var/lib/postgresql/data du conteneur postgresql. 
 
 * ***Question 1.B*** : 
@@ -107,14 +93,14 @@ Là encore nous allons devoir monter un fichier de configuration pour nginx afin
 exercice1/nginx/proxy.conf
 server {
 	listen 80;
-	server_name monsite1.fr;
+	server_name mysite1.fr;
 	location / {
         proxy_pass http://web:80;
     }
 }
 ```
 
-Votre fichier docker-compose sera nommé "docker-compose_q2" . 
+Votre fichier docker-compose sera nommé "docker-compose_q1b" . 
 
 ***Astuce*** : vous pouvez utiliser le docker-compose_q1 comme support, il faudra cepandant ajouter le fichier proxy.conf dans le repertoire /etc/nginx/conf.d/ en le renommant default.conf pour le service proxy 
 
@@ -131,7 +117,7 @@ exercice1/html2/index.php
 <?php
     echo "<h1>Trois commandes très utiles sur docker v2</h1></br>";
     echo "<ol>";
-    $connexion = new PDO('pgsql:host=postgresql;port=5432;dbname=database', 'admin', 'dauphine');
+    $connexion = new PDO('pgsql:host=postgresql2;port=5432;dbname=database2', 'admin', 'dauphine');
     $sql = 'SELECT * FROM commande';
     $results = $connexion->prepare($sql);
     $results->execute();
@@ -170,20 +156,40 @@ server{
 
 }
 ```
-Nous devons également ajouter une nouvelle entrée à notre reverse proxy. Les clients arrivant avec l'url http://monsite2.fr seront alors redirigés vers notre nouvelle application (hébergée dans le conteneur web2) tout en laissant la première application fonctionner normalement. 
+Nous devons également ajouter une nouvelle entrée à notre reverse proxy. Les clients arrivant avec l'url http://mysite2.fr seront alors redirigés vers notre nouvelle application (hébergée dans le conteneur web2) tout en laissant la première application fonctionner normalement. 
 ```
 server {
 	listen 80;
-	server_name monsite1.fr;
+	server_name mysite1.fr;
 	location / {
         proxy_pass http://web:80;
     }
 }
 server {
 	listen 80;
-	server_name monsite2.fr;
+	server_name mysite2.fr;
 	location / {
         proxy_pass http://web2:80;
     }
 }
+```
+Voici l'arborecsence final de votre projet : 
+
+```
+excercice2
+├── /bdd
+│   ├── /data1
+│   └── /data2
+├── docker-compose_q1a.yml
+├── docker-compose_q1b.yml
+├── docker-compose_q2.yml
+├── /html
+│   └── index.php
+├── /html2
+│   └── index.php
+└── /nginx
+    ├── proxy.conf
+    ├── site1.conf
+    └── site2.conf
+
 ```
